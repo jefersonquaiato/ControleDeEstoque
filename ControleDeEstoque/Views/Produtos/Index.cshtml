@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ControleDeEstoque.Models.Produto>
+@{ ViewData["Title"] = "Lista Produtos"; }
+
+<head><link rel="stylesheet" href="~/css/site.css" /></head>
+
+<div class="text-center">
+
+    @if (TempData["mensagemSucesso"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["mensagemSucesso"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <h3>Lista de Produtos</h3>
+
+    <table class="table table-striped mt-lg-4">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Código</th>
+                <th>Quantidade</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Nome)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Codigo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Quantidade)
+    </td>
+    <td>
+        <div title="Acoes" rel="tooltip" class="actions text-center dropdown-menu-sm-left fixed-dropdown">
+            <a data-toggle="dropdown" id="cursor-drop" class="dropdown-toggle pointer-event" aria-expanded="false"></a>
+            <ul class="dropdown-menu pl-1">
+                <li><a asp-action="AjustarEstoque" asp-route-id="@item.Id" class="text-dark">Ajustar Estoque</a></li>
+                <li><a asp-action="EditarProduto" asp-route-id="@item.Id" class="text-dark">Editar Produto</a></li>
+                <li><a href="#" class="text-dark modExcluir" data-value="@item.Id">Excluir Produto</a></li>
+            </ul>
+        </div>
+    </td>
+</tr>
+}
+        </tbody>
+    </table>
+</div>
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="conteudoModal">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/site.js" asp-append-version="true"></script>
